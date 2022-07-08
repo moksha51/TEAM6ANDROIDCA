@@ -9,15 +9,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class TwelveImagePage extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener  {
+
+    private final int imagecount = 0;
+    ActivityResultLauncher<Intent> rlSelectImage;
 
     //this code is for for the test out the functionality without Heily's download part
     private final String[] fnames = {
@@ -35,28 +34,19 @@ public class MainActivity extends AppCompatActivity
     };
     */
 
-    private int imagecount = 0;
-    ActivityResultLauncher<Intent> rlSelectImage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_twelve_image_page);
 
         MyCustomAdapter adapter = new MyCustomAdapter(this, 0);
         adapter.setData(fnames);
-
-        Button fetchBtn = findViewById(R.id.fetchBtn);
-        if(fetchBtn!=null){
-            fetchBtn.setOnClickListener(this);
-        }
 
         GridView gridView = findViewById(R.id.gridView);
         if (gridView != null) {
             gridView.setAdapter(adapter);
             gridView.setOnItemClickListener(this);
         }
-
     }
 
     protected void registerForResult(){
@@ -68,9 +58,7 @@ public class MainActivity extends AppCompatActivity
                         if (data != null){
                             String image = data.getStringExtra("");
                             if (image != null){
-                                /* need to ask Cher Wah about this, supposed to log the files names
-                                into a manifest or something then reference so Halim can do his game code
-                                */
+                                //ask Cher Wah about this
                             }
                         }
                     }
@@ -78,29 +66,24 @@ public class MainActivity extends AppCompatActivity
         );
     }
 
-    //this part works when pressing the image, XJ needs to figure out how to select send images to TwelveImagePage
-    @Override
+    //Game logic for Halim to figure out how to match the images
     public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
-        //int selectedImage = v.getId();
-        //if (selectedImage == R.id.grid_image){
+        int selectedImage = v.getId();
+
+        if (id == R.id.grid_image){
+            Intent intent = new Intent(this, TwelveImagePage.class);
+            rlSelectImage.launch(intent);
             Toast.makeText(this, "This image will be loaded into the game", Toast.LENGTH_SHORT).show();
             if (imagecount >= 0 && imagecount < 6){
                 Toast.makeText(this, imagecount + " image(s) has been loaded into the game", Toast.LENGTH_SHORT).show();
             }
-            else if (imagecount == 6){
-                Toast.makeText(this,"Game will commence shortly",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, TwelveImagePage.class);
-                rlSelectImage.launch(intent);
-            }
             else{
-                //throw exception or something, see whether want to implement or not.
+                Toast.makeText(this,"Game will commence shortly",Toast.LENGTH_SHORT).show();
             }
         }
 
-    //}
+    }
 
-    //Heily's part on how to pass the URL link to the fetch button
-    @Override
     public void onClick(View view){
         EditText newUrl = findViewById(R.id.urlBar);
         if(newUrl!= null){
