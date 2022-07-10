@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/s1014/AndroidStudioProjects/TEAM6ANDROIDCA/app/src/main/res/font/font.xml" value="0.20564102564102565" />
+        <entry key="..\:/Users/s1014/AndroidStudioProjects/TEAM6ANDROIDCA/app/src/main/res/layout/activity_homepage.xml" value="0.1796875" />
+        <entry key="..\:/Users/s1014/AndroidStudioProjects/TEAM6ANDROIDCA/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/s1014/AndroidStudioProjects/TEAM6ANDROIDCA/app/src/main/res/layout/activity_score.xml" value="0.165625" />
+        <entry key="..\:/Users/s1014/AndroidStudioProjects/TEAM6ANDROIDCA/app/src/main/res/layout/activity_start_game.xml" value="0.1796875" />
+        <entry key="..\:/Users/s1014/AndroidStudioProjects/TEAM6ANDROIDCA/app/src/main/res/layout/activity_twelve_image_page.xml" value="0.1" />
+        <entry key="..\:/Users/s1014/AndroidStudioProjects/TEAM6ANDROIDCA/app/src/main/res/layout/image_selection.xml" value="0.1" />
+        <entry key="..\:/Users/s1014/AndroidStudioProjects/TEAM6ANDROIDCA/app/src/main/res/layout/layout.xml" value="0.165625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_my_custom_adapter.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_twelve_image_page.xml" value="0.265625" />
