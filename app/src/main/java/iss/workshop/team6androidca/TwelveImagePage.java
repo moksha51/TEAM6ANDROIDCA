@@ -11,10 +11,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +34,8 @@ public class TwelveImagePage extends AppCompatActivity implements AdapterView.On
     boolean timerStarted = false; //this is the default
 
     //Progress bar
-    TextView completionBar;
+    ProgressBar completionBar;
+    int newProgress = 0;
 
 
     private final int imagecount = 0;
@@ -77,6 +80,10 @@ public class TwelveImagePage extends AppCompatActivity implements AdapterView.On
         //Progress Bar
         completionBar = findViewById(R.id.xOutOf6ImageSelectCounter);
         completionBar.setMax(6);
+
+        //Assuming the game commences once player enters this page
+        startGame();
+
     }
 
     protected void registerForResult(){
@@ -128,52 +135,37 @@ public class TwelveImagePage extends AppCompatActivity implements AdapterView.On
 
 
     // ProgressBar and Timer
-    public void resetTapped (View v){
 
-        AlertDialog.Builder resetAlert = new AlertDialog.Builder(this);
-        resetAlert.setTitle("Restart game");
-        resetAlert.setMessage("Are you sure you want to restart the game?");
-        resetAlert.setPositiveButton("Restart", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (timerTask != null) // got some task
-                {
-                    timerTask.cancel();
-                    time = 0.0;
-                    timerStarted=false;
-                    timeCount.setText(formatTime(0,0,0));
-
-                    newProgress == 0;
-                }
-            }
-        });
-
-        resetAlert.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-    }
-
-    public void startGame (View v){
+    public void startGame (){
 
         if (timerStarted == false) // if timer is not started
         {
             timerStarted = true; //start timer
             startReset.setText("RESTART"); // change button to stop because timer started
-            startReset.setTextColor(ContextCompat.getColor(this, teal_200));
+            startReset.setTextColor(ContextCompat.getColor(this, R.color.salmon));
 
             startTimer();
+            // not sure how to connect the game to the progress bar
+            updateProgress(game, newProgress);
+
         }
-        else{ //if timer is started
+        else {
             timerStarted = false; //stop timer
             startReset.setText("START");
 
             timerTask.cancel();
+        }
+    };
 
+    public void updateProgress(View game, int newProgress) {
+        if (newProgress == 6) {
+            completionBar.setVisibility(View.GONE);
+        } else {
+            completionBar.setVisibility(View.VISIBLE);
+            completionBar.setProgress(newProgress);
         }
     }
+
 
     private void startTimer(){
         timerTask = new TimerTask()
@@ -187,12 +179,12 @@ public class TwelveImagePage extends AppCompatActivity implements AdapterView.On
                         timeCount.setText(getTimerText());
                     }
                 });
-
             }
         };
 
         timer.scheduleAtFixedRate(timerTask,0,1000);
     }
+
 
     private String getTimerText()
     {
@@ -209,5 +201,31 @@ public class TwelveImagePage extends AppCompatActivity implements AdapterView.On
         return String.format("%2d", hours) + ":" + String.format("%2d", minutes) + ":" + String.format("%2d", seconds);
     }
 
+    public void restartTapped (View v){
 
+        AlertDialog.Builder resetAlert = new AlertDialog.Builder(this);
+        resetAlert.setTitle("Restart game");
+        resetAlert.setMessage("Are you sure you want to restart the game?");
+        resetAlert.setPositiveButton("Restart", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (timerTask != null) // got some task
+                {
+                    timerTask.cancel();
+                    time = 0.0;
+                    timerStarted=false;
+                    timeCount.setText(formatTime(0,0,0));
+
+                    newProgress = 0;
+                }
+            }
+        });
+
+        resetAlert.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //do nothing
+            }
+        });
+    }
 }
