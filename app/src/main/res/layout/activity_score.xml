@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScoreActivity">
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:gravity="center"
+        android:fontFamily="@font/monument_extended"
+        android:textAllCaps="true"
+        android:text="Score:__"
+        android:textColor="@color/brand_blue"
+        android:textSize="25sp"/>
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/backToHome"
+        android:fontFamily="@font/monument_extended"
+        android:textSize="16sp"
+        android:backgroundTint="@color/brand_blue"
+        android:textColor="@color/white"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
