@@ -1,19 +1,25 @@
 package iss.workshop.team6androidca;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import iss.workshop.team6androidca.StartGameAdapter;
 
@@ -35,12 +41,26 @@ public class StartGame extends AppCompatActivity {
     private int currentScore = 0;
     private int clickCount = 0;
 
+    //Time count
+    TextView timeCount;
+    Button startReset;
+    Timer timer;
+    TimerTask timerTask;
+    Double time = 0.0;
+    boolean timerStarted = false; //this is the default
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
 
+        //Time Count
+        timeCount = findViewById(R.id.timeCount);
+        //startReset = findViewById(R.id.startReset);
+        timer = new Timer();
+
         gameGridSetup();
+        startGame();
     }
 
     protected void gameGridSetup() {
@@ -128,8 +148,49 @@ public class StartGame extends AppCompatActivity {
         textView.setText(String.valueOf(currentScore));
         if (currentScore == 6) {
             Intent intent = new Intent(StartGame.this, ScoreActivity.class);
+            intent.putExtra("time",getTimerText());
             startActivity(intent);
+
         }
+    }
+
+    public void startGame (){
+        timerStarted = true;
+        startTimer();
+    };
+
+    private void startTimer(){
+        timerTask = new TimerTask()
+        {
+            @Override
+            public void run(){
+            runOnUiThread(new Runnable(){
+                @Override
+                public void run(){
+                    time++;
+                    timeCount.setText(getTimerText());
+                }
+            });
+            }
+        };
+
+        timer.scheduleAtFixedRate(timerTask,0,1000);
+    }
+
+
+    private String getTimerText()
+    {
+        int rounded = (int) Math.round(time);
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int minutes = ((rounded % 86400) % 3600) / 60;
+        int hours = ((rounded % 86400) / 3600);
+
+        return formatTime(seconds, minutes, hours);
+
+    }
+
+    private String formatTime(int seconds, int minutes, int hours){
+        return String.format("%2d", hours) + ":" + String.format("%2d", minutes) + ":" + String.format("%2d", seconds);
     }
 
 }

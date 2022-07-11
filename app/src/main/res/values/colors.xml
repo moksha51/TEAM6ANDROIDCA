@@ -11,4 +11,6 @@
     <color name="gray">#2DC4C4C4</color>
     <color name="brand_yellow">#ffde59</color>
     <color name="brand_blue">#004aad</color>
+    <color name="red">#D22B2B</color>
+    <color name="salmon">#E97451</color>
 </resources>
