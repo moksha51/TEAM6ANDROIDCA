@@ -10,15 +10,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5">
+        android:layout_weight="1.5"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/gameTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingVertical="20dp"
             android:background="@color/white"
             android:fontFamily="@font/druk_wide_bold"
             android:gravity="center"
-            android:padding="20dp"
+            android:padding="0dp"
             android:text="@string/letsPlay"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -34,13 +36,12 @@
         <TextView
             android:id="@+id/realScore"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:background="@color/brand_blue"
             android:fontFamily="@font/monument_extended"
-            android:padding="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="0dp"
+            android:paddingVertical="10dp"
+            android:paddingLeft="10dp"
             android:text="@string/realScore"
             android:textAllCaps="true"
             android:textColor="@color/white"
@@ -49,31 +50,30 @@
         <TextView
             android:id="@+id/totalScore"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_height="match_parent"
+            android:paddingRight="10dp"
+            android:gravity="center"
             android:background="@color/brand_blue"
             android:fontFamily="@font/monument_extended"
-            android:padding="10dp"
-            android:paddingStart="0dp"
-            android:paddingEnd="20dp"
             android:text=" of 6 matches"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="16sp"/>
 
-        <Chronometer
-            android:id="@+id/stopwatch"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timeCount"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_height="match_parent"
+            android:paddingVertical="16dp"
+            android:paddingRight="10dp"
             android:gravity="right"
             android:background="@color/brand_blue"
             android:fontFamily="@font/monument_extended"
-            android:padding="10dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="10dp"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:text="00:00:00"
+            android:textSize="16sp">
+        </androidx.appcompat.widget.AppCompatTextView>
+
     </LinearLayout>
 
     <LinearLayout

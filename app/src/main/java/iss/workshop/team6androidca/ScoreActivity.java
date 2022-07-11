@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ScoreActivity extends AppCompatActivity implements View.OnClickListener {
     Button back;
@@ -14,6 +15,11 @@ public class ScoreActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
+
+        Intent intent = getIntent();
+        String timeTaken = intent.getStringExtra("time");
+        TextView textView = findViewById(R.id.score);
+        textView.setText("Time taken: "+ timeTaken);
 
         back = findViewById(R.id.back);
         back.setOnClickListener(this);
