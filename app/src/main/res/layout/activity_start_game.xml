@@ -1,95 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".StartGame">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/back"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:backgroundTint="@color/gray"
-        android:fontFamily="@font/monument_extended"
-        android:textColor="@color/black"
-        android:textSize="10sp"
-        android:textAlignment="viewStart"
-        android:drawableLeft="@drawable/back_button">
+        android:layout_height="0dp"
+        android:layout_weight="1.5">
+        <TextView
+            android:id="@+id/gameTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:fontFamily="@font/druk_wide_bold"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/letsPlay"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/brand_blue"
+            android:textSize="25sp"/>
+    </LinearLayout>
 
-    </Button>
-
-    <Button
-        android:id="@+id/forward"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/gray"
-        android:fontFamily="@font/monument_extended"
-        android:text="Score View"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/black"
-        android:textSize="10sp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    </Button>
+        <TextView
+            android:id="@+id/realScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@color/brand_blue"
+            android:fontFamily="@font/monument_extended"
+            android:padding="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
+            android:text="@string/realScore"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
 
-    <TextView
+        <TextView
+            android:id="@+id/totalScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@color/brand_blue"
+            android:fontFamily="@font/monument_extended"
+            android:padding="10dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="20dp"
+            android:text=" of 6 matches"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <Chronometer
+            android:id="@+id/stopwatch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="right"
+            android:background="@color/brand_blue"
+            android:fontFamily="@font/monument_extended"
+            android:padding="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_marginTop="50dp"
-        android:background="@color/white"
-        android:fontFamily="@font/druk_wide_bold"
-        android:gravity="center"
-        android:padding="30dp"
-        android:text="@string/letsPlay"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textColor="@color/brand_blue"
-        android:textSize="25sp" />
+        android:layout_height="0dp"
+        android:layout_weight="11"
+        android:orientation="horizontal">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <GridView
+                android:id="@+id/pictureGrid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
-    <include
-        layout="@layout/images"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:layout_marginTop="250dp" />
+            <GridView
+                android:id="@+id/coverGrid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_p1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="190dp"
-        android:background="@color/brand_blue"
-        android:fontFamily="@font/monument_extended"
-        android:padding="10dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:text="0 of 6 matches"
-        android:textAlignment="viewStart"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-
-    <Chronometer
-        android:id="@+id/stopwatch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="190dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/brand_blue"
-        android:fontFamily="@font/monument_extended"
-        android:padding="10dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-
-
-</RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>

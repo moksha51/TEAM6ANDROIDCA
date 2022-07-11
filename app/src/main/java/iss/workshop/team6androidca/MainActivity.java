@@ -107,12 +107,11 @@ public class MainActivity extends AppCompatActivity
 //        MyCustomAdapter adapter = new MyCustomAdapter(this, 0);
 //        adapter.setData(fnames);
 
-        gallery = findViewById(R.id.gallery);
-        textView = findViewById(R.id.progress_text);
-
-        progressBar=findViewById(R.id.progress_bar);
+//        gallery = findViewById(R.id.gallery);
+//        textView = findViewById(R.id.progress_text);
+//
+//        progressBar=findViewById(R.id.progress_bar);
         progressBar.setMax(20);
-
         loadDefaultImageViews();
 
         Button fetchBtn = findViewById(R.id.fetchBtn);
@@ -127,7 +126,6 @@ public class MainActivity extends AppCompatActivity
                     }
                     hideKeyboard(view);
                     revertToDefault();
-
                     if (content != null) {
                         content.cancel(true);
                     }
@@ -233,9 +231,7 @@ public class MainActivity extends AppCompatActivity
                 if (temp.isDirectory()) {
                     delAllFile(path+"/"+ tempList[i]);//Delete formerOne
                 }
-
             }
-
         }
         @Override
         protected Void doInBackground(Void... voids) {
@@ -365,24 +361,24 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    protected void registerForResult(){
-        rlSelectImage = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == AppCompatActivity.RESULT_OK){
-                        Intent data = result.getData();
-                        if (data != null){
-                            String image = data.getStringExtra("");
-                            if (image != null){
-                                /* need to ask Cher Wah about this, supposed to log the files names
-                                into a manifest or something then reference so Halim can do his game code
-                                */
-                            }
-                        }
-                    }
-                }
-        );
-    }
+//    protected void registerForResult(){
+//        rlSelectImage = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                result -> {
+//                    if (result.getResultCode() == AppCompatActivity.RESULT_OK){
+//                        Intent data = result.getData();
+//                        if (data != null){
+//                            String image = data.getStringExtra("");
+//                            if (image != null){
+//                                /* need to ask Cher Wah about this, supposed to log the files names
+//                                into a manifest or something then reference so Halim can do his game code
+//                                */
+//                            }
+//                        }
+//                    }
+//                }
+//        );
+//    }
 
     //this part works when pressing the image, XJ needs to figure out how to select send images to TwelveImagePage
     @Override
@@ -395,7 +391,7 @@ public class MainActivity extends AppCompatActivity
             }
             else if (imagecount == 6){
                 Toast.makeText(this,"Game will commence shortly",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, TwelveImagePage.class);
+                Intent intent = new Intent(this, StartGame.class);
                 rlSelectImage.launch(intent);
             }
             else{
