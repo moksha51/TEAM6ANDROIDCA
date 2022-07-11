@@ -1,18 +1,12 @@
 package iss.workshop.team6androidca;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class HomepageActivity extends AppCompatActivity implements View.OnClickListener {
     Button startGamebtn;
@@ -30,7 +24,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         }
 
         private void startGamebtn () {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, StartGame.class);
             startActivity(intent);
         }
         private void startBGMPlayer ( int bgmPos){
