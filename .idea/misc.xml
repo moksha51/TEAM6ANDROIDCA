@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1298351833165153" />
+        <entry key="app/src/main/res/font/font.xml" value="0.2898148148148148" />
         <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.15625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_my_custom_adapter.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/activity_score.xml" value="0.19114583333333332" />
         <entry key="app/src/main/res/layout/activity_start_game.xml" value="0.25679347826086957" />
         <entry key="app/src/main/res/layout/activity_twelve_image_page.xml" value="0.265625" />
         <entry key="app/src/main/res/layout/image_selection.xml" value="0.33" />

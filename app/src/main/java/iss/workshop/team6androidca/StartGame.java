@@ -3,6 +3,7 @@ package iss.workshop.team6androidca;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -25,6 +26,8 @@ import java.util.TimerTask;
 import iss.workshop.team6androidca.StartGameAdapter;
 
 public class StartGame extends AppCompatActivity {
+    private MediaPlayer bgmplayer = null;
+    //private int bgmPos = 4;
 
     private String[] testImageArray = {
             "hug", "laugh", "peep",
@@ -55,6 +58,7 @@ public class StartGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
+        startBGMPlayer();
 
         Intent intent = getIntent();
         for (int u = 0; u < 6; u++) {
@@ -70,6 +74,32 @@ public class StartGame extends AppCompatActivity {
 
         gameGridSetup();
         startGame();
+    }
+    private void startBGMPlayer ( ){
+
+        //play bgm
+        bgmplayer = MediaPlayer.create(StartGame.this, R.raw.sneaky);
+        bgmplayer.start();
+        bgmplayer.setLooping(true);
+
+    }
+    @Override
+    protected void onResume () {
+        super.onResume();
+        bgmplayer.start();
+    }
+
+    @Override
+    protected void onPause () {
+        super.onPause();
+        bgmplayer.pause();
+    }
+
+    @Override
+    protected void onDestroy () {
+        super.onDestroy();
+        bgmplayer.stop();
+        bgmplayer.release();
     }
 
     protected void gameGridSetup() {

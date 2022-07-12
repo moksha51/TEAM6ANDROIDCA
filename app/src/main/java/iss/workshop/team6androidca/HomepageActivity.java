@@ -11,13 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class HomepageActivity extends AppCompatActivity implements View.OnClickListener {
     Button startGamebtn;
     private MediaPlayer bgmplayer = null;
-    private int bgmPos = 0;
+    //private int bgmPos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
-        startBGMPlayer(bgmPos);
+        startBGMPlayer();
         startGamebtn = findViewById(R.id.startGamebtn);
         startGamebtn.setOnClickListener(this);
 
@@ -27,7 +27,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-        private void startBGMPlayer ( int bgmPos){
+        private void startBGMPlayer ( ){
 
             //play bgm
             bgmplayer = MediaPlayer.create(this, R.raw.backgroud_music);

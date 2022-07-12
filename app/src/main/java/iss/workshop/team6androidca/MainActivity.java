@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 public class MainActivity extends AppCompatActivity {
+    private MediaPlayer bgmplayer = null;
 
     ImageView[] imageViews = new ImageView[20];
     ArrayList<Bitmap> imgBits = new ArrayList<Bitmap>();
@@ -85,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         verifyStoragePermissions(MainActivity.this);
+        startBGMPlayer();
         success = Toast.makeText(this, "Download Completed!", Toast.LENGTH_SHORT);
         error = Toast.makeText(this, "Please use another URL", Toast.LENGTH_LONG);
-
 
         gallery = findViewById(R.id.gallery);
         textView = findViewById(R.id.progress_text);
@@ -118,6 +120,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    private void startBGMPlayer ( ){
+
+        //play bgm
+        bgmplayer = MediaPlayer.create(MainActivity.this, R.raw.pixelland);
+        bgmplayer.start();
+        bgmplayer.setLooping(true);
+
+    }
+    @Override
+    protected void onResume () {
+        super.onResume();
+        bgmplayer.start();
+    }
+
+    @Override
+    protected void onPause () {
+        super.onPause();
+        bgmplayer.pause();
+    }
+
+    @Override
+    protected void onDestroy () {
+        super.onDestroy();
+        bgmplayer.stop();
+        bgmplayer.release();
     }
     //TODO Complete animation for selected images
     private void anAnimation(GridView gridView, ArrayList<Integer> arrList) {
@@ -193,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void delAllFile(String path) {
             File file = new File(path);
+            allFilenames.clear();
             if (!file.exists()) {
                 return;
             }
@@ -272,35 +301,37 @@ public class MainActivity extends AppCompatActivity {
                 imageViews[values[0]].setImageBitmap(imgBits.get(values[0]));
 
                 imageViews[values[0]].setOnClickListener(new OnClickListener() {
-                                                             @Override
-                                                             public void onClick(View view) {
-                                                                 if (imagecount < 6 && view.getAlpha() == 1) {
-                                                                     imagecount++;
-                                                                     int indexIV = findIndex(imageViews, imageViews[values[0]]);
-                                                                     selectedFilenames.add(allFilenames.get(indexIV));
-                                                                     view.setAlpha(0.5F);
-                                                                 } else if (imagecount < 6 && view.getAlpha() == 0.5F) {
-                                                                     imagecount--;
-                                                                     view.setAlpha(1.0F);
-                                                                     int indexIV = findIndex(imageViews, imageViews[values[0]]);
-                                                                     selectedFilenames.remove(allFilenames.get(indexIV));
-                                                                 }
-                                                                 if (imagecount == 6) {
-                                                                     view.postDelayed(new Runnable() {
-                                                                         @Override
-                                                                         public void run() {
-                                                                             Intent intent = new Intent(MainActivity.this, StartGame.class);
-                                                                             for (int u = 0; u < selectedFilenames.size(); u++){
-                                                                                 String index = "file" + Integer.toString(u);
-                                                                                 intent.putExtra(index,selectedFilenames.get(u));
-                                                                             }
-                                                                             startActivity(intent);
-                                                                         }
-                                                                     }, 500);
+                     @Override
+                     public void onClick(View view) {
+                         if (imagecount < 6 && view.getAlpha() == 1) {
+                             imagecount++;
+                             int indexIV = findIndex(imageViews, imageViews[values[0]]);
+                             selectedFilenames.add(allFilenames.get(indexIV));
+                             view.setAlpha(0.5F);
+                             Toast.makeText(MainActivity.this,imagecount + " images have been selected", Toast.LENGTH_SHORT).show();
+                         } else if (imagecount < 6 && view.getAlpha() == 0.5F) {
+                             imagecount--;
+                             view.setAlpha(1.0F);
+                             int indexIV = findIndex(imageViews, imageViews[values[0]]);
+                             selectedFilenames.remove(allFilenames.get(indexIV));
+                         }
+                         if (imagecount == 6) {
+                             view.postDelayed(new Runnable() {
+                                 @Override
+                                 public void run() {
+                                     Intent intent = new Intent(MainActivity.this, StartGame.class);
+                                     for (int u = 0; u < selectedFilenames.size(); u++){
+                                         String index = "file" + Integer.toString(u);
+                                         intent.putExtra(index,selectedFilenames.get(u));
+                                     }
+                                     startActivity(intent);
+                                     Toast.makeText(MainActivity.this,"Game will start now", Toast.LENGTH_SHORT).show();
+                                 }
+                             }, 500);
 
-                                                                 }
-                                                             }
-                                                         });
+                         }
+                     }
+                 });
                 textView.setText(values[0] + 1 + "/" + progressBar.getMax());
             }
         }
