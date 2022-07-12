@@ -279,24 +279,22 @@ public class MainActivity extends AppCompatActivity {
                                                                      int indexIV = findIndex(imageViews, imageViews[values[0]]);
                                                                      selectedFilenames.add(allFilenames.get(indexIV));
                                                                      view.setAlpha(0.5F);
-                                                                     //Toast.makeText(MainActivity.this," image count "+imagecount+", alpha: "+view.getAlpha(),Toast.LENGTH_SHORT).show();
-                                                                     //TODO add image code here
                                                                  } else if (imagecount < 6 && view.getAlpha() == 0.5F) {
                                                                      imagecount--;
                                                                      view.setAlpha(1.0F);
                                                                      int indexIV = findIndex(imageViews, imageViews[values[0]]);
                                                                      selectedFilenames.remove(allFilenames.get(indexIV));
-                                                                     //Toast.makeText(MainActivity.this,"image count "+imagecount+", alpha: "+view.getAlpha(),Toast.LENGTH_SHORT).show();
-                                                                     //TODO remove image code here
                                                                  }
                                                                  if (imagecount == 6) {
-                                                                     //TODO for each selected image/imageview, show jump
                                                                      view.postDelayed(new Runnable() {
                                                                          @Override
                                                                          public void run() {
                                                                              Intent intent = new Intent(MainActivity.this, StartGame.class);
                                                                              startActivity(intent);
-                                                                             //TODO for each file name, loop and putExtra to call in next activity
+                                                                             for (int u = 0; u < selectedFilenames.size(); u++){
+                                                                                 String index = "file" + Integer.toString(u);
+                                                                                 intent.putExtra(index,selectedFilenames.get(u));
+                                                                             }
                                                                          }
                                                                      }, 500);
 
