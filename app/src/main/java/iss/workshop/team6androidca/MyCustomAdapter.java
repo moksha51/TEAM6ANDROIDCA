@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 
 public class MyCustomAdapter extends ArrayAdapter {
     private final Context context;
+
     protected String[] fnames;
 
     public MyCustomAdapter(Context context, int resId) {
@@ -27,16 +28,21 @@ public class MyCustomAdapter extends ArrayAdapter {
         }
     }
 
-    @androidx.annotation.NonNull
+    @NonNull
     public View getView(int pos, View view, @NonNull ViewGroup parent) {
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                    Activity.LAYOUT_INFLATER_SERVICE);
+
+            // if we are not responsible for adding the view to the parent,
+            // then attachToRoot should be 'false' (which is in our case)
             view = inflater.inflate(R.layout.start_game_grid_item, parent, false);
         }
 
         // set the image for ImageView
         ImageView imageView = view.findViewById(R.id.grid_image);
-        int id = context.getResources().getIdentifier(fnames[pos], "drawable", context.getPackageName());
+        int id = context.getResources().getIdentifier(fnames[pos],
+                "drawable", context.getPackageName());
         imageView.setImageResource(id);
 
         return view;

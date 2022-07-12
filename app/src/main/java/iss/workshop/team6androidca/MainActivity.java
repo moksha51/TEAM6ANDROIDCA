@@ -2,21 +2,19 @@ package iss.workshop.team6androidca;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,8 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -48,14 +44,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-public class MainActivity extends AppCompatActivity
-        implements AdapterView.OnItemClickListener, View.OnClickListener {
-
-    //this code is for for the test out the functionality without Heily's download part
-    private final String[] fnames = {
-            "hug", "laugh", "peep", "snore", "stop",
-            "tired", "full", "what", "afraid", "no_way"
-    };
+public class MainActivity extends AppCompatActivity {
 
     ImageView[] imageViews = new ImageView[20];
     ArrayList<Bitmap> imgBits = new ArrayList<Bitmap>();
@@ -66,18 +55,9 @@ public class MainActivity extends AppCompatActivity
     TextView textView;
     String url;
     Toast success, error;
-
-    /*
-    this code is to be used for actual submission
-    Heily to rename the downloaded image files to "1", "2", "3" etc
-    up to 20 for the downloaded files
-    private final String[] fnames = {
-            "1", "2", "3", "4", "5","6","7","8","9","10",
-            "11", "12", "13", "14", "15","16","17","18","19","20"
-    };
-    */
-
+    //File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     private int imagecount = 0;
+
     private final int REQUEST_EXTERNAL_STORAGE = 1;
     private String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -93,25 +73,22 @@ public class MainActivity extends AppCompatActivity
                     REQUEST_EXTERNAL_STORAGE);
         }
     }
-    ActivityResultLauncher<Intent> rlSelectImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         verifyStoragePermissions(MainActivity.this);
         success = Toast.makeText(this, "Download Completed!", Toast.LENGTH_SHORT);
         error = Toast.makeText(this, "Please use another URL", Toast.LENGTH_LONG);
 
-//        MyCustomAdapter adapter = new MyCustomAdapter(this, 0);
-//        adapter.setData(fnames);
 
-//        gallery = findViewById(R.id.gallery);
-//        textView = findViewById(R.id.progress_text);
-//
-//        progressBar=findViewById(R.id.progress_bar);
+        gallery = findViewById(R.id.gallery);
+        textView = findViewById(R.id.progress_text);
+
+        progressBar=findViewById(R.id.progress_bar);
         progressBar.setMax(20);
+
         loadDefaultImageViews();
 
         Button fetchBtn = findViewById(R.id.fetchBtn);
@@ -126,6 +103,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     hideKeyboard(view);
                     revertToDefault();
+
                     if (content != null) {
                         content.cancel(true);
                     }
@@ -134,12 +112,6 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         }
-        /*GridView gridView = findViewById(R.id.gridView);
-        if (gridView != null) {
-            gridView.setAdapter(adapter);
-            gridView.setOnItemClickListener(this);
-        }*/
-
     }
 
     private class Content extends AsyncTask<Void, Integer, Void> {
@@ -231,7 +203,9 @@ public class MainActivity extends AppCompatActivity
                 if (temp.isDirectory()) {
                     delAllFile(path+"/"+ tempList[i]);//Delete formerOne
                 }
+
             }
+
         }
         @Override
         protected Void doInBackground(Void... voids) {
@@ -358,59 +332,6 @@ public class MainActivity extends AppCompatActivity
                 count++;
             }
             gallery.addView(layout);
-        }
-    }
-
-//    protected void registerForResult(){
-//        rlSelectImage = registerForActivityResult(
-//                new ActivityResultContracts.StartActivityForResult(),
-//                result -> {
-//                    if (result.getResultCode() == AppCompatActivity.RESULT_OK){
-//                        Intent data = result.getData();
-//                        if (data != null){
-//                            String image = data.getStringExtra("");
-//                            if (image != null){
-//                                /* need to ask Cher Wah about this, supposed to log the files names
-//                                into a manifest or something then reference so Halim can do his game code
-//                                */
-//                            }
-//                        }
-//                    }
-//                }
-//        );
-//    }
-
-    //this part works when pressing the image, XJ needs to figure out how to select send images to TwelveImagePage
-    @Override
-    public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
-        //int selectedImage = v.getId();
-        //if (selectedImage == R.id.grid_image){
-            Toast.makeText(this, "This image will be loaded into the game", Toast.LENGTH_SHORT).show();
-            if (imagecount >= 0 && imagecount < 6){
-                Toast.makeText(this, imagecount + " image(s) has been loaded into the game", Toast.LENGTH_SHORT).show();
-            }
-            else if (imagecount == 6){
-                Toast.makeText(this,"Game will commence shortly",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, StartGame.class);
-                rlSelectImage.launch(intent);
-            }
-            else{
-                //throw exception or something, see whether want to implement or not.
-            }
-        }
-
-    //}
-
-    //Heily's part on how to pass the URL link to the fetch button
-    @Override
-    public void onClick(View view){
-        EditText newUrl = findViewById(R.id.urlBar);
-        if(newUrl!= null){
-            Intent intent = new Intent();
-            intent.putExtra("newURL", newUrl.getText().toString());
-            Uri uri = Uri.parse(String.valueOf(newUrl));
-            setResult(RESULT_OK, intent);
-            finish();
         }
     }
 }

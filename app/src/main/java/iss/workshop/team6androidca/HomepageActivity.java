@@ -24,7 +24,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         }
 
         private void startGamebtn () {
-            Intent intent = new Intent(this, StartGame.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
         private void startBGMPlayer ( int bgmPos){
