@@ -2,6 +2,7 @@ package iss.workshop.team6androidca;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -14,9 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     Toast success, error;
     //File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     private int imagecount = 0;
+    private ArrayList<String> selectedFilenames = new ArrayList<String>();
+    private ArrayList<String> allFilenames = new ArrayList<String>();
 
     private final int REQUEST_EXTERNAL_STORAGE = 1;
     private String[] PERMISSIONS_STORAGE = {
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         loadDefaultImageViews();
 
         Button fetchBtn = findViewById(R.id.fetchBtn);
-        if(fetchBtn!=null){
+        if(fetchBtn != null){
             fetchBtn.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
@@ -113,6 +119,14 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+    //TODO Complete animation for selected images
+    private void anAnimation(GridView gridView, ArrayList<Integer> arrList) {
+        for (int i : arrList) {
+            View image = gridView.getChildAt(i) ;
+            Animation animation = AnimationUtils.loadAnimation(image.getContext(), R.anim.wrong);
+            image.startAnimation(animation);
+        }
+    }
 
     private class Content extends AsyncTask<Void, Integer, Void> {
         @Override
@@ -121,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(ProgressBar.VISIBLE);
             textView.setVisibility(textView.VISIBLE);
         }
-        //downloadimage
+        //download image
         private void getWebImage(String url) {
             try {
                 //get url
@@ -146,10 +160,10 @@ public class MainActivity extends AppCompatActivity {
                 //if sd card exists
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 
-                    //SD card directory
+                    // SD card directory
                     File parentFile = Environment.getExternalStorageDirectory();
-                    //创建子目录，这里如果不加“.JPG”同样能在ImageView中显示，但是不能再图库中显示。parentFile，是父级目录，必须存在，第二个参数可以自己随便写
-                    //Create a subdirectory. If don't add ".JPG", it can also be displayed in ImageView,
+                    // 创建子目录，这里如果不加“.JPG”同样能在ImageView中显示，但是不能再图库中显示。parentFile，是父级目录，必须存在，第二个参数可以自己随便写
+                    // Create a subdirectory. If don't add ".JPG", it can also be displayed in ImageView,
                     // but it cannot be displayed in the gallery. parentFile, is the parent directory,
                     // must exist, the second parameter can be written or not
                     downloadFile = new File(parentFile,strDate+".jpg");
@@ -167,17 +181,13 @@ public class MainActivity extends AppCompatActivity {
                         out.write(b, 0, len);
                     }
                 }
-
                 System.out.println("==========================="+downloadFile.getAbsolutePath());
-
 
             } catch (MalformedURLException | ProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
 
         public void delAllFile(String path) {
@@ -224,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
                         String imgSrc = elementIt.next().absUrl("src");
                         Log.i("data ",imgSrc);
+                        allFilenames.add(imgSrc);
                         getWebImage(imgSrc);
                         InputStream input = new java.net.URL(imgSrc).openStream();
                         Bitmap imgbit = BitmapFactory.decodeStream(input);
@@ -254,7 +265,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
-
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
@@ -263,7 +273,6 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(values[0] + 1 + "/" + progressBar.getMax());
             }
         }
-
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -288,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setProgress(0);
         textView.setText("0/" + progressBar.getMax());
         for (ImageView iv : imageViews) {
-            iv.setImageResource(R.drawable.peep);
+            iv.setImageResource(R.drawable.ic_gray);
             iv.setForeground(null);
             iv.setClickable(false);
         }
@@ -323,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
 
             for (int j = 0; j < column; j++) {
                 ImageView iv = new ImageView(this);
-                iv.setImageResource(R.drawable.peep);
+                iv.setImageResource(R.drawable.ic_gray);
                 iv.setLayoutParams(ivParams);
                 iv.setId(count);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -333,5 +342,32 @@ public class MainActivity extends AppCompatActivity {
             }
             gallery.addView(layout);
         }
+    }
+
+    private int findIndex(ImageView[] ivarr, ImageView iv)
+    {
+
+        // if array is Null
+        if (ivarr == null) {
+            return -1;
+        }
+
+        // find length of array
+        int len = ivarr.length;
+        int i = 0;
+
+        // traverse in the array
+        while (i < len) {
+
+            // if the i-th element is t
+            // then return the index
+            if (ivarr[i] == iv) {
+                return i;
+            }
+            else {
+                i = i + 1;
+            }
+        }
+        return -1;
     }
 }
