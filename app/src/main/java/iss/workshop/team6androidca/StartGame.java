@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -25,7 +26,7 @@ import iss.workshop.team6androidca.StartGameAdapter;
 
 public class StartGame extends AppCompatActivity {
 
-    private String[] selectedFilenames = {
+    private String[] testImageArray = {
             "hug", "laugh", "peep",
             "snore", "stop", "tired"
     };
@@ -40,6 +41,7 @@ public class StartGame extends AppCompatActivity {
     private final int scoreTotal = 6;
     private int currentScore = 0;
     private int clickCount = 0;
+    private String[] filefilefiles = new String[6];
 
     //Time count
     TextView timeCount;
@@ -54,6 +56,13 @@ public class StartGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
 
+        Intent intent = getIntent();
+        for (int u = 0; u < 6; u++) {
+            String index = "file" + Integer.toString(u);
+            filefilefiles[u] = intent.getStringExtra(index);
+            System.out.println(intent.getStringExtra(index));
+        }
+
         //Time Count
         timeCount = findViewById(R.id.timeCount);
         //startReset = findViewById(R.id.startReset);
@@ -67,7 +76,7 @@ public class StartGame extends AppCompatActivity {
         GridView gridView = findViewById(R.id.coverGrid);
         GridView gridViewTwo = findViewById(R.id.pictureGrid);
 
-        selectedFilenames = randomisePictures(selectedFilenames);
+        filefilefiles = randomisePictures(filefilefiles);
 
         StartGameAdapter pictureCoverAdapter = new StartGameAdapter(this, pictureCovers);
         if (gridView != null) {
@@ -86,7 +95,7 @@ public class StartGame extends AppCompatActivity {
                                 selectedImagesIndexList.add(x);
                             }
                         }
-                        if (selectedFilenames[selectedImagesIndexList.get(0)] != selectedFilenames[selectedImagesIndexList.get(1)]) {
+                        if (filefilefiles[selectedImagesIndexList.get(0)] != filefilefiles[selectedImagesIndexList.get(1)]) {
                             wrongAnimation(gridViewTwo, selectedImagesIndexList);
                             gridView.getChildAt(selectedImagesIndexList.get(0)).postDelayed(new Runnable() {
                                 @Override
@@ -94,9 +103,10 @@ public class StartGame extends AppCompatActivity {
                                     gridView.getChildAt(selectedImagesIndexList.get(0)).setAlpha(1);
                                     gridView.getChildAt(selectedImagesIndexList.get(1)).setAlpha(1);
                                 }
+
                             },700);
                         }
-                        if (selectedFilenames[selectedImagesIndexList.get(0)] == selectedFilenames[selectedImagesIndexList.get(1)]) {
+                        if (filefilefiles[selectedImagesIndexList.get(0)] == filefilefiles[selectedImagesIndexList.get(1)]) {
                             for (int k : selectedImagesIndexList) {
                                 gridView.getChildAt(k).setAlpha(0);
                                 gridView.getChildAt(k).setOnClickListener(null);
@@ -111,7 +121,7 @@ public class StartGame extends AppCompatActivity {
             });
         }
 
-        StartGameAdapter selectedFilenamesAdapter = new StartGameAdapter(this, selectedFilenames);
+        StartGameAdapter2 selectedFilenamesAdapter = new StartGameAdapter2(this, filefilefiles);
         if (gridViewTwo != null) {
             gridViewTwo.setAdapter(selectedFilenamesAdapter);
         }

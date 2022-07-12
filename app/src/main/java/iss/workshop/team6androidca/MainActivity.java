@@ -182,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 System.out.println("==========================="+downloadFile.getAbsolutePath());
+                allFilenames.add(downloadFile.getAbsolutePath());
 
             } catch (MalformedURLException | ProtocolException e) {
                 e.printStackTrace();
@@ -234,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
 
                         String imgSrc = elementIt.next().absUrl("src");
                         Log.i("data ",imgSrc);
-                        allFilenames.add(imgSrc);
                         getWebImage(imgSrc);
                         InputStream input = new java.net.URL(imgSrc).openStream();
                         Bitmap imgbit = BitmapFactory.decodeStream(input);
@@ -290,11 +290,11 @@ public class MainActivity extends AppCompatActivity {
                                                                          @Override
                                                                          public void run() {
                                                                              Intent intent = new Intent(MainActivity.this, StartGame.class);
-                                                                             startActivity(intent);
                                                                              for (int u = 0; u < selectedFilenames.size(); u++){
                                                                                  String index = "file" + Integer.toString(u);
                                                                                  intent.putExtra(index,selectedFilenames.get(u));
                                                                              }
+                                                                             startActivity(intent);
                                                                          }
                                                                      }, 500);
 
